@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Лабиринт знаний</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <section id="menuScreen" class="screen menu-screen active">
+      <h1 class="title">Лабиринт знаний</h1>
+      <p class="subtitle">Пройди лабиринт, отвечай на вопросы по информатике и доберись до выхода.</p>
+      <div class="menu-buttons">
+        <button id="startBtn" class="menu-btn">Новая игра</button>
+        <button id="highscoresBtn" class="menu-btn">Таблица рекордов</button>
+        <button id="settingsBtn" class="menu-btn">Настройки</button>
+        <button id="exitBtn" class="menu-btn">Выход</button>
+      </div>
+      <div class="controls-note">
+        Десктоп: стрелки на клавиатуре.<br>
+        Мобильная версия: нажми сверху, снизу, слева или справа от героя — он пойдёт в эту сторону.
+        Если удерживать палец, движение продолжится до стены, вопроса или конца пути.
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen">
+      <div class="play-area">
+        <div class="canvas-wrap">
+          <canvas id="mazeCanvas" width="600" height="600"></canvas>
+          <div id="touchHint" class="touch-hint">Tap / Hold режим активен</div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="stat" id="scoreEl">Очки: 0</div>
+          <div class="stat" id="livesEl">Жизни: 2</div>
+          <div class="small" id="difficultyEl">Сложность: medium</div>
+          <div class="small" id="timeEl">Время: 0.0 с</div>
+          <div class="small" id="themeEl">Тема: classic</div>
+          <div class="message" id="messageEl"></div>
+        </aside>
+      </div>
+
+      <div id="questionOverlay" class="overlay">
+        <div class="question-window">
+          <div class="question-header">
+            <div class="question-title">Вопрос</div>
+            <div class="timer" id="questionTimer">10</div>
+          </div>
+          <div class="question-text" id="questionText"></div>
+          <div class="options" id="optionsBox"></div>
+          <div class="question-actions">
+            <button id="hintBtn" class="btn btn-primary">Подсказка 50/50 (+3 сек)</button>
+            <button id="skipBtn" class="btn btn-danger">Пропустить (-5 очков)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="highscoresScreen" class="screen center-screen">
+      <h2 class="title">Таблица рекордов</h2>
+      <div id="recordsList" class="records-list"></div>
+      <div class="button-row">
+        <button id="clearRecordsBtn" class="btn btn-danger">Очистить рекорды</button>
+        <button id="backFromRecordsBtn" class="btn">Назад</button>
+      </div>
+    </section>
+
+    <section id="settingsScreen" class="screen center-screen">
+      <h2 class="title">Настройки</h2>
+
+      <div class="settings-card">
+        <div class="settings-group">
+          <div class="label">Сложность</div>
+          <div class="chips">
+            <button class="chip difficulty-chip" data-value="easy">Лёгкая</button>
+            <button class="chip difficulty-chip" data-value="medium">Средняя</button>
+            <button class="chip difficulty-chip" data-value="hard">Сложная</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="label">Цветовая тема</div>
+          <div class="chips">
+            <button class="chip theme-chip" data-value="classic">Классика</button>
+            <button class="chip theme-chip" data-value="ocean">Ocean</button>
+            <button class="chip theme-chip" data-value="sunset">Sunset</button>
+          </div>
+        </div>
+
+        <div class="settings-group">
+          <div class="label">Размер текста</div>
+          <div class="chips">
+            <button class="chip text-chip" data-value="small">Маленький</button>
+            <button class="chip text-chip" data-value="medium">Средний</button>
+            <button class="chip text-chip" data-value="large">Крупный</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="backFromSettingsBtn" class="btn">Назад</button>
+    </section>
+
+    <section id="exitScreen" class="screen center-screen">
+      <h2 class="title">Выход</h2>
+      <p class="subtitle">В браузере страницу нельзя надёжно закрыть автоматически. Можно закрыть вкладку или вернуться в меню.</p>
+      <div class="button-row">
+        <button id="tryCloseBtn" class="btn btn-danger">Закрыть вкладку</button>
+        <button id="backFromExitBtn" class="btn">Назад</button>
+      </div>
+    </section>
+
+    <section id="endScreen" class="screen center-screen">
+      <h2 id="resultTitle" class="title result-title win">ПОБЕДА!</h2>
+      <div id="resultMediaWrap" class="result-media-wrap hidden">
+        <img id="resultGif" class="result-gif" alt="result animation" />
+      </div>
+      <div class="result-stats">
+        <div id="finalScore">Очки: 0</div>
+        <div id="finalTime">Время: 0.0 сек</div>
+      </div>
+      <div class="name-entry">
+        <label for="playerNameInput">Имя для рекорда</label>
+        <input id="playerNameInput" type="text" maxlength="20" placeholder="Аноним" />
+      </div>
+      <div class="button-row">
+        <button id="saveResultBtn" class="btn btn-success">Сохранить результат</button>
+        <button id="restartBtn" class="btn btn-success">Заново</button>
+        <button id="backMenuBtn" class="btn">Главное меню</button>
+      </div>
+    </section>
+  </div>
+
+  <audio id="goodAudio" preload="auto" src="assets/good.ogg"></audio>
+  <audio id="badAudio" preload="auto" src="assets/bad.ogg"></audio>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
