@@ -7,28 +7,36 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app" id="app">
+  <div class="app">
     <section id="menuScreen" class="screen menu-screen active">
       <h1 class="title">Лабиринт знаний</h1>
       <p class="subtitle">Пройди лабиринт, отвечай на вопросы по информатике и доберись до выхода.</p>
       <div class="menu-buttons">
         <button id="startBtn" class="menu-btn">Новая игра</button>
+        <button id="instructionBtn" class="menu-btn">Инструкция</button>
         <button id="highscoresBtn" class="menu-btn">Таблица рекордов</button>
         <button id="settingsBtn" class="menu-btn">Настройки</button>
         <button id="exitBtn" class="menu-btn">Выход</button>
       </div>
-      <div class="controls-note">
-        Десктоп: стрелки на клавиатуре.<br>
-        Мобильная версия: нажми сверху, снизу, слева или справа от героя — он пойдёт в эту сторону.
-        Если удерживать палец, движение продолжится до стены, вопроса или конца пути.
+    </section>
+
+    <section id="instructionScreen" class="screen center-screen">
+      <h2 class="title">Инструкция</h2>
+      <div class="info-card">
+        <p>Цель игры — пройти лабиринт от старта до финиша и набрать как можно больше очков.</p>
+        <p><strong>Управление на компьютере:</strong> стрелки на клавиатуре.</p>
+        <p><strong>Управление на телефоне:</strong> нажми на героя и потяни в нужную сторону. Герой поедет сам, пока не упрётся в стену, не попадёт на вопрос или не дойдёт до финиша.</p>
+        <p>За правильный ответ начисляются очки. За ошибку снимается жизнь. Вопрос можно пропустить за -5 очков. Подсказка 50/50 оставляет два варианта ответа, но отнимает 3 секунды.</p>
       </div>
+      <button id="backFromInstructionBtn" class="btn">Назад</button>
     </section>
 
     <section id="gameScreen" class="screen game-screen">
       <div class="play-area">
         <div class="canvas-wrap">
           <canvas id="mazeCanvas" width="600" height="600"></canvas>
-          <div id="touchHint" class="touch-hint">Tap / Hold режим активен</div>
+          <img id="playerSprite" class="player-sprite hidden" alt="hero" />
+          <div class="touch-hint">Потяни героя в нужную сторону</div>
         </div>
 
         <aside class="sidebar">
@@ -36,7 +44,8 @@
           <div class="stat" id="livesEl">Жизни: 2</div>
           <div class="small" id="difficultyEl">Сложность: medium</div>
           <div class="small" id="timeEl">Время: 0.0 с</div>
-          <div class="small" id="themeEl">Тема: classic</div>
+          <div class="small" id="themeEl">Тема: light</div>
+          <div class="small" id="heroEl">Герой: circle</div>
           <div class="message" id="messageEl"></div>
         </aside>
       </div>
@@ -80,20 +89,22 @@
         </div>
 
         <div class="settings-group">
-          <div class="label">Цветовая тема</div>
+          <div class="label">Цветовая схема</div>
           <div class="chips">
-            <button class="chip theme-chip" data-value="classic">Классика</button>
-            <button class="chip theme-chip" data-value="ocean">Ocean</button>
-            <button class="chip theme-chip" data-value="sunset">Sunset</button>
+            <button class="chip theme-chip" data-value="light">Светлый фон</button>
+            <button class="chip theme-chip" data-value="dark">Чёрный фон</button>
+            <button class="chip theme-chip" data-value="purple">Фиолетовый фон</button>
           </div>
         </div>
 
         <div class="settings-group">
-          <div class="label">Размер текста</div>
+          <div class="label">Герой</div>
           <div class="chips">
-            <button class="chip text-chip" data-value="small">Маленький</button>
-            <button class="chip text-chip" data-value="medium">Средний</button>
-            <button class="chip text-chip" data-value="large">Крупный</button>
+            <button class="chip hero-chip" data-value="circle">Синий круг</button>
+            <button class="chip hero-chip" data-value="kolobok">Колобок</button>
+            <button class="chip hero-chip" data-value="butterfly">Бабочка</button>
+            <button class="chip hero-chip" data-value="ant">Муравей</button>
+            <button class="chip hero-chip" data-value="hasbulla">Хасбик</button>
           </div>
         </div>
       </div>
